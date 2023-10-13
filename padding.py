@@ -38,5 +38,5 @@ for image_file in image_files:
     output_path = os.path.join(output_folder, image_file)
     padded_image.save(output_path)
 
-print(f'已完成填充并保存 到 {output_folder}')
+print(f'已完成填充并保存到 {output_folder}')
 
