@@ -33,8 +33,10 @@ parser.add_argument('--output_dir', default='data/64x64_SIGNS', help="Where to w
 
 def resize_and_save(filename, output_dir, size=SIZE):
     """Resize the image contained in `filename` and save it to the `output_dir`"""
-    image = Image.open(filename)
+    image = Image.open(filename)        #使用PIL库中的Image将读取的文件加载到“Image”对象中
     # Use bilinear interpolation instead of the default "nearest neighbor" method
+    #使用双线性插值代替默认的 "最近邻" 方法
+    #使用了双线性插值（bilinear interpolation）的方法，以平滑地调整图像的尺寸到指定的大小。
     image = image.resize((size, size), Image.BILINEAR)
     image.save(os.path.join(output_dir, filename.split('/')[-1]))
 
@@ -42,14 +44,25 @@ def resize_and_save(filename, output_dir, size=SIZE):
 if __name__ == '__main__':
     args = parser.parse_args()
 
+    """
+    检查 args.data_dir 中是否存在一个有效的目录。如果 args.data_dir 不是一个有效的目录，
+    就会引发一个异常，错误消息为 "Couldn't find the dataset at [args.data_dir的值]"。
+    """
     assert os.path.isdir(args.data_dir), "Couldn't find the dataset at {}".format(args.data_dir)
 
     # Define the data directories
+    #定义数据集路径
     train_data_dir = os.path.join(args.data_dir, 'train_signs')
     test_data_dir = os.path.join(args.data_dir, 'test_signs')
 
     # Get the filenames in each directory (train and test)
-    filenames = os.listdir(train_data_dir)
+    filenames = os.listdir(train_data_dir)  #用于获取训练数据目录和测试数据目录中的所有文件和子目录的名称。这将返回一个包含这些名称的列表。
+    """
+    filenames 是一个列表，包含了训练数据目录中所有以 '.jpg' 结尾的文件的完整路径。
+    它首先遍历 os.listdir(train_data_dir) 中的文件和子目录名称，
+    然后通过 os.path.join(train_data_dir, f) 将每个名称与 train_data_dir 组合，
+    从而获得每个文件的完整路径，最后使用 if f.endswith('.jpg') 条件来筛选出只有以 '.jpg' 结尾的文件。
+    """
     filenames = [os.path.join(train_data_dir, f) for f in filenames if f.endswith('.jpg')]
 
     test_filenames = os.listdir(test_data_dir)
