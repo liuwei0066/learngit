@@ -55,7 +55,12 @@ class RunningAverage():
     def update(self, val):
         self.total += val
         self.steps += 1
-    
+    """
+    __call__ 是Python类中的一个特殊方法，也被称为魔法方法或魔术方法。
+    当在一个对象上调用这个方法时，它允许对象像函数一样被调用。
+    具体来说，当你使用 () 运算符来调用一个对象时，Python会在对象中查找是否有 __call__ 方法，
+    如果有的话，它将执行这个方法的代码。
+    """
     def __call__(self):
         return self.total/float(self.steps)
         
